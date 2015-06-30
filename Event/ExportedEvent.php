@@ -7,12 +7,10 @@
 
 namespace Avro\CsvBundle\Event;
 
-use Avro\CsvBundle\Export\ExporterInterface;
-
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Export initialized event
+ * Export initialized event.
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
@@ -29,7 +27,7 @@ class ExportedEvent extends Event
     }
 
     /**
-     * Get the csv data
+     * Get the csv data.
      *
      * @return string
      */
@@ -38,4 +36,3 @@ class ExportedEvent extends Event
         return $this->content;
     }
 }
-
