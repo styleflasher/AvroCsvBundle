@@ -25,6 +25,5 @@
     },
     "autoload": {
         "psr-4": { "Avro\\CsvBundle\\": "" }
-    },
-    "target-dir": "Avro/CsvBundle"
+    }
 }
