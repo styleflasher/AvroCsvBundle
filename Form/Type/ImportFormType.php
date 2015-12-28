@@ -64,18 +64,6 @@ class ImportFormType extends AbstractType
     }
 
     /**
-     * Set default options.
-     *
-     * @param OptionsResolverInterface $resolver The resolver for the options.
-     *
-     * @deprecated since version 2.7, to be renamed in 3.0.
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    /**
      * Configures the options for this type.
      *
      * @param OptionsResolver $resolver The resolver for the options

@@ -8,7 +8,8 @@
 namespace Avro\CsvBundle\Controller;
 
 use Avro\CsvBundle\Form\Type\ImportFormType;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class ImportController extends ContainerAware
+class ImportController implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
     /**
      * Upload a csv.
      *
