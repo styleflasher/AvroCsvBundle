@@ -13,15 +13,15 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": "~5.4|~7.0",
+        "php": "~5.5|~7.0",
         "avro/case-bundle": "*"
     },
     "require-dev": {
         "twig/twig": "*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/orm": "*",
-        "symfony/form": "~2.7|~3.0",
-        "symfony/dependency-injection": "~2.4|~3.0"
+        "symfony/form": "~2.8|~3.0",
+        "symfony/dependency-injection": "~2.8|~3.0"
     },
     "autoload": {
         "psr-4": { "Avro\\CsvBundle\\": "" }

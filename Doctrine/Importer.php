@@ -124,7 +124,7 @@ class Importer
         $fields = array_unique($this->caseConverter->toPascalCase($fields));
 
         while ($row = $this->reader->getRow()) {
-            if (($this->importCount % $this->batchSize) == 0) {
+            if (0 !== $this->importCount && ($this->importCount % $this->batchSize) === 0) {
                 $this->addRow($row, $fields, true);
             } else {
                 $this->addRow($row, $fields, false);

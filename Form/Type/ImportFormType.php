@@ -3,6 +3,10 @@
 namespace Avro\CsvBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -25,31 +29,48 @@ class ImportFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('delimiter', 'choice', array(
-                'label' => 'Delimiter',
-                'choices' => array(
-                    ',' => 'comma',
-                    ';' => 'semicolon',
-                    '|' => 'pipe',
-                    ':' => 'colon',
-                ),
-            ))
-            ->add('file', 'file', array(
-                'label' => 'File',
-                'required' => true,
-            ))
-            ->add('filename', 'hidden', array(
-                'required' => false,
-            ))
-            ->add('fields', 'collection', array(
-                'label' => 'Fields',
-                'required' => false,
-                'type' => 'choice',
-                'options' => array(
-                    'choices' => $options['field_choices'],
-                ),
-                'allow_add' => true,
-            ));
+            ->add(
+                'delimiter',
+                ChoiceType::class,
+                array(
+                    'choices' => array(
+                        'comma' => ',',
+                        'semicolon' => ';',
+                        'pipe' => '|',
+                        'colon' => ':',
+                    ),
+                    'choices_as_values' => true,
+                    'label' => 'Delimiter',
+                )
+            )
+            ->add(
+                'file',
+                FileType::class,
+                array(
+                    'label' => 'File',
+                    'required' => true,
+                )
+            )
+            ->add(
+                'filename',
+                HiddenType::class,
+                array(
+                    'required' => false,
+                )
+            )
+            ->add(
+                'fields',
+                CollectionType::class,
+                array(
+                    'allow_add' => true,
+                    'entry_type' => ChoiceType::class,
+                    'entry_options' => array(
+                        'choices' => $options['field_choices'],
+                    ),
+                    'label' => 'Fields',
+                    'required' => false,
+                )
+            );
 
         $builder->addEventListener(FormEvents::PRE_BIND, function (FormEvent $event) {
             $data = $event->getData();
@@ -80,7 +101,7 @@ class ImportFormType extends AbstractType
      *
      * @return string name
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'avro_csv_import';
     }

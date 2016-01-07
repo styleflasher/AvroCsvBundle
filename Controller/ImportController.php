@@ -33,7 +33,7 @@ class ImportController implements ContainerAwareInterface
     {
         $fieldChoices = $this->container->get('avro_csv.field_retriever')->getFields($this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)), 'title', true);
 
-        $form = $this->container->get('form.factory')->create(new ImportFormType(), null, array('field_choices' => $fieldChoices));
+        $form = $this->container->get('form.factory')->create(ImportFormType::class, null, array('field_choices' => $fieldChoices));
 
         return $this->container->get('templating')->renderResponse('AvroCsvBundle:Import:upload.html.twig', array(
             'form' => $form->createView(),
@@ -53,14 +53,10 @@ class ImportController implements ContainerAwareInterface
     {
         $fieldChoices = $this->container->get('avro_csv.field_retriever')->getFields($this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)), 'title', true);
 
-        $form = $this->container->get('form.factory')->create(new ImportFormType(), null, array('field_choices' => $fieldChoices));
+        $form = $this->container->get('form.factory')->create(ImportFormType::class, null, array('field_choices' => $fieldChoices));
 
         if ('POST' == $request->getMethod()) {
-            if (method_exists($form, 'handleRequest')) {
-                $form->handleRequest($request);
-            } else {
-                $form->bind($request);
-            }
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $reader = $this->container->get('avro_csv.reader');
 
@@ -102,14 +98,10 @@ class ImportController implements ContainerAwareInterface
     {
         $fieldChoices = $this->container->get('avro_csv.field_retriever')->getFields($this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)), 'title', true);
 
-        $form = $this->container->get('form.factory')->create(new ImportFormType(), null, array('field_choices' => $fieldChoices));
+        $form = $this->container->get('form.factory')->create(ImportFormType::class, null, array('field_choices' => $fieldChoices));
 
         if ('POST' == $request->getMethod()) {
-            if (method_exists($form, 'handleRequest')) {
-                $form->handleRequest($request);
-            } else {
-                $form->bind($request);
-            }
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $importer = $this->container->get('avro_csv.importer');
 
