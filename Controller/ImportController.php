@@ -71,6 +71,11 @@ class ImportController implements ContainerAwareInterface
 
                 $headers = $this->container->get('avro_case.converter')->toTitleCase($reader->getHeaders());
 
+                // Recreate form and create proper fields child for each header
+                $form = $this->container->get('form.factory')->create(ImportFormType::class, null, array('field_choices' => $fieldChoices));
+                $form->get('fields')->setData(array_fill_keys((array) $headers, null));
+                $form->handleRequest($request);
+
                 $rows = $reader->getRows($this->container->getParameter('avro_csv.sample_count'));
 
                 return $this->container->get('templating')->renderResponse('AvroCsvBundle:Import:mapping.html.twig', array(
