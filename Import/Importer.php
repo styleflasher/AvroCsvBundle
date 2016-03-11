@@ -89,7 +89,11 @@ class Importer
         $this->reader->open($file, $delimiter);
         $this->class = $class;
         $this->metadata = $this->objectManager->getClassMetadata($class);
-        $this->headers = $this->caseConverter->convert($this->reader->getHeaders(), $headerFormat);
+        if ('form' === $headerFormat) {
+            $this->headers = $this->toFormHeaderCase($this->reader->getHeaders());
+        } else {
+            $this->headers = $this->caseConverter->convert($this->reader->getHeaders(), $headerFormat);
+        }
     }
 
     /**
@@ -116,6 +120,42 @@ class Importer
         $this->objectManager->flush();
 
         return true;
+    }
+
+    /**
+     * Converts a string to a format suitable as form name.
+     *
+     * @param string|array $input
+     *
+     * @return string|array
+     */
+    public function toFormHeaderCase($input)
+    {
+        if (is_array($input)) {
+            $result = array();
+            foreach ($input as $val) {
+                $result[] = $this->convertToFormHeaderCase($val);
+            }
+        } else {
+            $result = $this->convertToFormHeaderCase($input);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Convert a string to a format suitable as form name.
+     *
+     * @param string $input
+     *
+     * @return string
+     */
+    private function convertToFormHeaderCase($input)
+    {
+        $input = $this->caseConverter->convert($input, 'camel');
+        $input = preg_replace('/[^A-Za-z0-9:_-]/', '', $input);
+
+        return $input;
     }
 
     /**

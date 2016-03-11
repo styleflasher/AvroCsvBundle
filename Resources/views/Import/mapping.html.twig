@@ -17,11 +17,11 @@
                     </tr>
                 </thead>
                 <tbody class="collection">
-                    {% for header in headers %}
+                    {% for header, title in headers %}
                         {% set index = loop.index0 %}
                         <tr class="collection-item">
-                            <td>{{ header }}</td>
-                            <td>{[ form_widget(form.fields[header]) }}</td>
+                            <td>{{ title }}</td>
+                            <td>{% if form.fields[header] is defined %}{{ form_widget(form.fields[header]) }}{% endif %}</td>
                             {% for row in rows %}
                                 <td>{{ row[index] }}</td>
                             {% endfor %}

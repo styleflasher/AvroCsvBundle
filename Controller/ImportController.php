@@ -69,7 +69,8 @@ class ImportController implements ContainerAwareInterface
 
                 $reader->open(sprintf('%s%s', $tmpUploadDir, $filename), $form['delimiter']->getData());
 
-                $headers = $this->container->get('avro_case.converter')->toTitleCase($reader->getHeaders());
+                $fileHeaders = $reader->getHeaders();
+                $headers = $this->container->get('avro_csv.importer')->toFormHeaderCase($fileHeaders);
 
                 // Recreate form and create proper fields child for each header
                 $form = $this->container->get('form.factory')->create(ImportFormType::class, null, array('field_choices' => $fieldChoices));
@@ -81,8 +82,8 @@ class ImportController implements ContainerAwareInterface
                 return $this->container->get('templating')->renderResponse('AvroCsvBundle:Import:mapping.html.twig', array(
                     'form' => $form->createView(),
                     'alias' => $alias,
-                    'headers' => $headers,
-                    'headersJson' => json_encode($headers, JSON_FORCE_OBJECT),
+                    'headers' => array_combine((array) $headers, (array) $fileHeaders),
+                    'headersJson' => json_encode($this->container->get('avro_case.converter')->toTitleCase($fileHeaders), JSON_FORCE_OBJECT),
                     'rows' => $rows,
                 ));
             }
@@ -117,7 +118,8 @@ class ImportController implements ContainerAwareInterface
                         $form['filename']->getData()
                     ),
                     $this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)),
-                    $form['delimiter']->getData()
+                    $form['delimiter']->getData(),
+                    'form'
                 );
 
                 $importer->import($form['fields']->getData());
