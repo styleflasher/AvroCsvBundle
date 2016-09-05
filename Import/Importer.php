@@ -63,7 +63,7 @@ class Importer
      * @param EventDispatcherInterface $dispatcher    The event dispatcher
      * @param CaseConverter            $caseConverter The case Converter
      * @param ObjectManager            $objectManager The Doctrine Object Manager
-     * @param int                      $batchSize     The batch size before flushing & clearing the om
+     * @param int                      $batchSize     The batch size before flushing the om
      */
     public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, $batchSize)
     {
@@ -229,7 +229,6 @@ class Importer
 
         if ($andFlush) {
             $this->objectManager->flush();
-            $this->objectManager->clear($this->class);
         }
     }
 
