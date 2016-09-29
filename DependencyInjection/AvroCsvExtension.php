@@ -40,6 +40,8 @@ class AvroCsvExtension extends Extension
         $container->setParameter('avro_csv.batch_size', $config['batch_size']);
         $container->setParameter('avro_csv.tmp_upload_dir', $config['tmp_upload_dir']);
         $container->setParameter('avro_csv.sample_count', $config['sample_count']);
+        $container->setParameter('avro_csv.delimiter', $config['delimiter']);
+        $container->setParameter('avro_csv.enclosure', $config['enclosure']);
 
         foreach ($config['objects'] as $k => $v) {
             $container->setParameter(sprintf('avro_csv.objects.%s.class', $k), $v['class']);

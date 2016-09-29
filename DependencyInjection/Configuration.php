@@ -33,6 +33,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('batch_size')->defaultValue('15')->cannotBeEmpty()->end()
                 ->scalarNode('tmp_upload_dir')->defaultValue('%kernel.root_dir%/../web/uploads/tmp/')->cannotBeEmpty()->end()
                 ->scalarNode('sample_count')->defaultValue(1)->cannotBeEmpty()->end()
+                ->scalarNode('delimiter')->defaultValue(',')->cannotBeEmpty()->end()
+                ->scalarNode('enclosure')->defaultValue('"')->cannotBeEmpty()->end()
                 ->arrayNode('objects')
                     ->useAttributeAsKey('object')->prototype('array')
                         ->addDefaultsIfNotSet()

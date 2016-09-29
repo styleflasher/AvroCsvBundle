@@ -19,13 +19,17 @@ use Doctrine\ORM\EntityManager;
 class Exporter extends BaseExporter implements ExporterInterface
 {
     protected $entityManager;
+    protected $delimiter;
+    protected $enclosure;
 
     /**
      * @param EntityManager $entityManager The csv entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $delimiter, $enclosure)
     {
         $this->entityManager = $entityManager;
+        $this->delimiter = $delimiter;
+        $this->enclosure = $enclosure;
     }
 
     /**

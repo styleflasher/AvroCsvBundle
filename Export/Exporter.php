@@ -21,6 +21,8 @@ abstract class Exporter
      */
     protected $queryBuilder;
 
+    protected $delimiter;
+    protected $enclosure;
     /**
      * Export all of an objects data to csv format.
      *
@@ -34,9 +36,9 @@ abstract class Exporter
         foreach ($iterableResults as $row) {
             $row = reset($row);
             if ($content == null) {
-                $content = $this->arrayToCsv(array_keys($row));
+                $content = $this->arrayToCsv(array_keys($row), $this->delimiter, $this->enclosure);
             }
-            $content .= $this->arrayToCsv(array_values($row));
+            $content .= $this->arrayToCsv(array_values($row), $this->delimiter, $this->enclosure);
         }
 
         return $content;

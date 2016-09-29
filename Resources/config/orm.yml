@@ -5,4 +5,4 @@ services:
 
     avro_csv.exporter:
         class: Avro\CsvBundle\Export\Doctrine\ORM\Exporter
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "%avro_csv.delimiter%", "%avro_csv.enclosure%"]
